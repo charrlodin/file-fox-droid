@@ -121,7 +121,7 @@ export default function AboutPage() {
               own OpenRouter API key for complete control over your data.
             </p>
             <a
-              href="https://github.com/foxfile/foxfile"
+              href="https://github.com/charrlodin/file-fox-droid"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-accent hover:underline"

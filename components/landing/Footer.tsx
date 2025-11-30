@@ -53,7 +53,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://github.com/foxfile/foxfile"
+                  href="https://github.com/charrlodin/file-fox-droid"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-muted hover:text-accent transition-colors"

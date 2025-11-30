@@ -32,8 +32,8 @@ AI-powered file organization that actually works. Upload a messy folder (as .zip
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/foxfile/foxfile.git
-cd foxfile
+git clone https://github.com/charrlodin/file-fox-droid.git
+cd file-fox-droid
 npm install
 ```
 
