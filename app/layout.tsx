@@ -38,6 +38,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
+      <head>
+        <script
+          defer
+          src="https://umami-three-wheat-87.vercel.app/script.js"
+          data-website-id="6895d488-4297-4ba3-9115-73d9c0d83c59"
+        />
+      </head>
       <body
         className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable} antialiased`}
       >
