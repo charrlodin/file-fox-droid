@@ -172,7 +172,7 @@ export function Hero() {
         >
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-            <span>No signup required</span>
+            <span>BYOK - Bring your own key</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-accent rounded-full" />
@@ -180,7 +180,7 @@ export function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 bg-accent rounded-full" />
-            <span>200 files free</span>
+            <span>Open source</span>
           </div>
         </motion.div>
       </div>

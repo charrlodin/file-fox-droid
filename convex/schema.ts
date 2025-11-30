@@ -7,6 +7,8 @@ export default defineSchema({
     email: v.optional(v.string()),
     openRouterApiKey: v.optional(v.string()),
     openRouterModel: v.optional(v.string()),
+    totalFilesProcessed: v.optional(v.number()),
+    fileLimit: v.optional(v.number()),
     createdAt: v.number(),
   }).index("by_clerk_id", ["clerkId"]),
 

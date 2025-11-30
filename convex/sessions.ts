@@ -210,11 +210,32 @@ export const markComplete = mutation({
     organizedFileId: v.id("_storage"),
   },
   handler: async (ctx, args) => {
+    const session = await ctx.db.get(args.sessionId);
+    if (!session) {
+      throw new Error("Session not found");
+    }
+
     await ctx.db.patch(args.sessionId, {
       status: "complete",
       organizedFileId: args.organizedFileId,
       updatedAt: Date.now(),
     });
+
+    // Increment user's total files processed
+    if (session.userId && session.fileCount > 0) {
+      const userId = session.userId;
+      const user = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) => q.eq("clerkId", userId))
+        .first();
+
+      if (user) {
+        const currentTotal = user.totalFilesProcessed ?? 0;
+        await ctx.db.patch(user._id, {
+          totalFilesProcessed: currentTotal + session.fileCount,
+        });
+      }
+    }
 
     return { success: true };
   },

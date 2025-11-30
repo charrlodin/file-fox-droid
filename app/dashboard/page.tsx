@@ -326,6 +326,19 @@ export default function DashboardPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="p-4 border border-accent/30 rounded-lg bg-accent/5">
+            <p className="text-xs text-muted uppercase tracking-wider mb-1">Files Remaining</p>
+            <p className="font-[var(--font-heading)] text-2xl font-bold text-accent">
+              {apiKeyInfo?.filesRemaining ?? "-"}
+              <span className="text-sm text-muted font-normal">/{apiKeyInfo?.fileLimit ?? 50}</span>
+            </p>
+          </div>
+          <div className="p-4 border border-border rounded-lg bg-surface">
+            <p className="text-xs text-muted uppercase tracking-wider mb-1">Files Used</p>
+            <p className="font-[var(--font-heading)] text-2xl font-bold">
+              {apiKeyInfo?.filesUsed ?? 0}
+            </p>
+          </div>
           <div className="p-4 border border-border rounded-lg bg-surface">
             <p className="text-xs text-muted uppercase tracking-wider mb-1">Sessions</p>
             <p className="font-[var(--font-heading)] text-2xl font-bold">
@@ -336,18 +349,6 @@ export default function DashboardPage() {
             <p className="text-xs text-muted uppercase tracking-wider mb-1">Completed</p>
             <p className="font-[var(--font-heading)] text-2xl font-bold text-green-500">
               {stats?.completedSessions ?? "-"}
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg bg-surface">
-            <p className="text-xs text-muted uppercase tracking-wider mb-1">Files Organized</p>
-            <p className="font-[var(--font-heading)] text-2xl font-bold text-accent">
-              {stats?.totalFilesOrganized ?? "-"}
-            </p>
-          </div>
-          <div className="p-4 border border-border rounded-lg bg-surface">
-            <p className="text-xs text-muted uppercase tracking-wider mb-1">Data Processed</p>
-            <p className="font-[var(--font-heading)] text-2xl font-bold">
-              {stats ? formatBytes(stats.totalBytesProcessed) : "-"}
             </p>
           </div>
         </div>

@@ -137,23 +137,18 @@ export default function AboutPage() {
             <h2 className="font-[var(--font-heading)] text-2xl font-bold">
               Limits
             </h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-surface border border-border rounded-lg p-6">
-                <h3 className="font-semibold mb-2">Free / Anonymous</h3>
-                <ul className="text-sm text-muted space-y-1">
-                  <li>50 files per upload</li>
-                  <li>100MB max file size</li>
-                  <li>3 sessions per day</li>
-                </ul>
-              </div>
-              <div className="bg-surface border border-accent/30 rounded-lg p-6">
-                <h3 className="font-semibold mb-2 text-accent">Signed In</h3>
-                <ul className="text-sm text-muted space-y-1">
-                  <li>200 files per upload</li>
-                  <li>500MB max file size</li>
-                  <li>20 sessions per day</li>
-                </ul>
-              </div>
+            <div className="bg-surface border border-accent/30 rounded-lg p-6">
+              <h3 className="font-semibold mb-2 text-accent">BYOK Plan</h3>
+              <ul className="text-sm text-muted space-y-1">
+                <li>50 total files (tracked across all sessions)</li>
+                <li>200 files per upload</li>
+                <li>500MB max file size</li>
+                <li>Files auto-deleted after 3 days</li>
+              </ul>
+              <p className="text-xs text-muted mt-4">
+                Bring your own OpenRouter API key. Usage is tracked cumulatively - 
+                deleting sessions does not restore your file quota.
+              </p>
             </div>
           </section>
 

@@ -1,6 +1,8 @@
 import { v } from "convex/values";
 import { query, mutation, internalQuery } from "./_generated/server";
 
+const DEFAULT_FILE_LIMIT = 50;
+
 export const getApiKey = query({
   args: {},
   handler: async (ctx) => {
@@ -18,13 +20,20 @@ export const getApiKey = query({
       return null;
     }
 
+    const fileLimit = user.fileLimit ?? DEFAULT_FILE_LIMIT;
+    const filesUsed = user.totalFilesProcessed ?? 0;
+    const filesRemaining = Math.max(0, fileLimit - filesUsed);
+
     return {
       hasKey: !!user.openRouterApiKey,
       model: user.openRouterModel || "openai/gpt-4o-mini",
-      // Don't return the actual key, just masked version
       maskedKey: user.openRouterApiKey 
         ? `${user.openRouterApiKey.slice(0, 10)}...${user.openRouterApiKey.slice(-4)}`
         : null,
+      filesUsed,
+      fileLimit,
+      filesRemaining,
+      canUpload: filesRemaining > 0,
     };
   },
 });
@@ -90,6 +99,69 @@ export const removeApiKey = mutation({
     }
 
     return { success: true };
+  },
+});
+
+export const incrementFilesProcessed = mutation({
+  args: {
+    fileCount: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    const currentTotal = user.totalFilesProcessed ?? 0;
+    await ctx.db.patch(user._id, {
+      totalFilesProcessed: currentTotal + args.fileCount,
+    });
+
+    return { success: true };
+  },
+});
+
+export const checkCanUpload = query({
+  args: {
+    fileCount: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return { canUpload: false, reason: "Not authenticated" };
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) {
+      return { canUpload: true, filesRemaining: DEFAULT_FILE_LIMIT };
+    }
+
+    const fileLimit = user.fileLimit ?? DEFAULT_FILE_LIMIT;
+    const filesUsed = user.totalFilesProcessed ?? 0;
+    const filesRemaining = Math.max(0, fileLimit - filesUsed);
+
+    if (args.fileCount > filesRemaining) {
+      return {
+        canUpload: false,
+        reason: `You have ${filesRemaining} files remaining in your plan. This upload contains ${args.fileCount} files.`,
+        filesRemaining,
+      };
+    }
+
+    return { canUpload: true, filesRemaining };
   },
 });
 
