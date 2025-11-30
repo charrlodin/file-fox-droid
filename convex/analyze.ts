@@ -2,7 +2,7 @@
 
 import { v } from "convex/values";
 import { action } from "./_generated/server";
-import { api } from "./_generated/api";
+import { api, internal } from "./_generated/api";
 import JSZip from "jszip";
 
 const OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions";
@@ -82,8 +82,8 @@ export const analyzeAndGeneratePlan = action({
       throw new Error("User not authenticated");
     }
 
-    // Get user's API key
-    const userApiKey = await ctx.runQuery(api.users.getFullApiKey, {
+    // Get user's API key (internal query - not exposed to frontend)
+    const userApiKey = await ctx.runQuery(internal.users.getFullApiKey, {
       userId: session.userId,
     });
 

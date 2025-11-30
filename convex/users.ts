@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query, mutation } from "./_generated/server";
+import { query, mutation, internalQuery } from "./_generated/server";
 
 export const getApiKey = query({
   args: {},
@@ -93,8 +93,8 @@ export const removeApiKey = mutation({
   },
 });
 
-// Internal function to get full API key for server-side use
-export const getFullApiKey = query({
+// Internal function to get full API key for server-side use only
+export const getFullApiKey = internalQuery({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
     const user = await ctx.db
